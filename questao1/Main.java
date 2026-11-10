@@ -5,13 +5,13 @@ public class Main {
     public static void main(String[] args) {
         Produto notebook = new Produto("Notebook Gamer", 10);
 
-        StrategyCompras compras = new StrategyCompras();
-        StrategyVendas vendas = new StrategyVendas();
-        StrategyAuditoria auditoria = new StrategyAuditoria();
+        ObserverCompras compras = new ObserverCompras();
+        ObserverVendas vendas = new ObserverVendas();
+        ObserverAuditoria auditoria = new ObserverAuditoria();
 
-        notebook.adicionarStrategy(compras);
-        notebook.adicionarStrategy(vendas);
-        notebook.adicionarStrategy(auditoria);
+        notebook.adicionarObserver(compras);
+        notebook.adicionarObserver(vendas);
+        notebook.adicionarObserver(auditoria);
 
         System.out.println("=== 1) Estoque inicial: " + notebook.getQuantidade() + " unidades ===");
         System.out.println();
@@ -33,7 +33,7 @@ public class Main {
         System.out.println();
 
         System.out.println("=== 6) Removendo a área de Compras ===");
-        notebook.removerStrategy(compras);
+        notebook.removerObserver(compras);
         System.out.println();
 
         System.out.println("=== 7) Nova queda para 2 unidades (Compras não é mais notificada) ===");

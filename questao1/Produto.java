@@ -7,7 +7,7 @@ public class Produto {
 
     private final String nome;
     private int quantidade;
-    private final List<StrategyNotificacaoEstoque> estrategias = new ArrayList<>();
+    private final List<ObserverEstoque> observadores = new ArrayList<>();
 
     public Produto(String nome, int quantidadeInicial) {
         if (nome == null || nome.isBlank()) {
@@ -26,19 +26,19 @@ public class Produto {
         return quantidade;
     }
 
-    public void adicionarStrategy(StrategyNotificacaoEstoque estrategia) {
-        if (estrategia == null) {
-            throw new IllegalArgumentException("A estratégia de notificação é obrigatória.");
+    public void adicionarObserver(ObserverEstoque observador) {
+        if (observador == null) {
+            throw new IllegalArgumentException("O observador é obrigatório.");
         }
-        estrategias.add(estrategia);
+        observadores.add(observador);
     }
 
-    public boolean removerStrategy(StrategyNotificacaoEstoque estrategia) {
-        return estrategias.remove(estrategia);
+    public boolean removerObserver(ObserverEstoque observador) {
+        return observadores.remove(observador);
     }
 
-    public List<StrategyNotificacaoEstoque> getStrategys() {
-        return List.copyOf(estrategias);
+    public List<ObserverEstoque> getObserveres() {
+        return List.copyOf(observadores);
     }
 
     public void alterarQuantidade(int novaQuantidade) {
@@ -54,8 +54,12 @@ public class Produto {
         quantidade = novaQuantidade;
 
         System.out.printf("[Sistema]   '%s': %d -> %d unidade(s).%n", nome, quantidadeAnterior, novaQuantidade);
-        for (StrategyNotificacaoEstoque estrategia : List.copyOf(estrategias)) {
-            estrategia.notificar(this, quantidadeAnterior, novaQuantidade);
+        notificarObserveres(quantidadeAnterior, novaQuantidade);
+    }
+
+    private void notificarObserveres(int quantidadeAnterior, int quantidadeAtual) {
+        for (ObserverEstoque observador : List.copyOf(observadores)) {
+            observador.atualizar(this, quantidadeAnterior, quantidadeAtual);
         }
     }
 

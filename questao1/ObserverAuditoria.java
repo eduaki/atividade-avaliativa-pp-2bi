@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StrategyAuditoria implements StrategyNotificacaoEstoque {
+public class ObserverAuditoria implements ObserverEstoque {
 
     private final List<String> registros = new ArrayList<>();
 
     @Override
-    public void notificar(Produto produto, int quantidadeAnterior, int quantidadeAtual) {
+    public void atualizar(Produto produto, int quantidadeAnterior, int quantidadeAtual) {
         String registro = String.format(
                 "Produto '%s': estoque alterado de %d para %d unidade(s).",
                 produto.getNome(), quantidadeAnterior, quantidadeAtual);
